@@ -1,0 +1,11 @@
+# Master Ignore List
+node_modules/
+__pycache__/
+venv/
+.env
+dist/
+.DS_Store
+
+# Backend Specifics
+*.db
+backend_venv/
