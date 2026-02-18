@@ -125,7 +125,7 @@ function CreditCard({ cardData, isFlipped }: Props) {
         <div className={`card-inner ${isFlipped ? "flipped" : ""}`}>
           {/* FRONT */}
           {/* ================= FRONT OF CARD ================= */}
-          <div className="card-face h-full w-full rounded-xl shadow-2xl overflow-hidden relative bg-linear-to-br from-indigo-600 via-purple-700 to-slate-900 border border-white/20">
+          <div className="card-face h-full w-full rounded-xl shadow-2xl overflow-hidden relative bg-linear-to-br from-indigo-600 via-purple-700 to-slate-900 border border-white/20 backface-hidden">
             {/* THE GLOSSY SHINE OVERLAY */}
             <div className="absolute inset-0 bg-linear-to-tr from-white/20 via-transparent to-white/5 pointer-events-none"></div>
 
@@ -208,10 +208,10 @@ function CreditCard({ cardData, isFlipped }: Props) {
             </div>
           </div>
 
-          {/* BACK */}
-          {/* ================= BACK OF CARD ================= */}
-          {/* THE HACKS: 179.9deg (not 180), translateZ(1px), backface-visibility:hidden, and REMOVED antialiased */}
-          <div className="card-face h-full w-full rounded-xl shadow-2xl overflow-hidden relative bg-linear-to-br from-slate-800 to-slate-900 border border-white/10 transform:rotateY(179.9deg)_translateZ(1px) backface-visibility:hidden">
+          {/* BACK FACE */}
+          <div className="card-face h-full w-full rounded-xl shadow-2xl overflow-hidden relative bg-linear-to-br from-slate-800 to-slate-900 border border-white/10 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+            {/* ^^^ Fixed the syntax above. Added brackets [] so Tailwind understands them. */}
+
             {/* Edge-to-Edge Magnetic Stripe */}
             <div className="w-full h-12 bg-black mt-6 shadow-inner opacity-90"></div>
 
@@ -225,11 +225,8 @@ function CreditCard({ cardData, isFlipped }: Props) {
                   {/* Textured Signature Area */}
                   <div className="flex-1 h-full bg-[repeating-linear-gradient(45deg,transparent,transparent_2px,#d1d5db_2px,#d1d5db_4px)]"></div>
                   {/* CVV Box area */}
-                  <div
-                    key={cardData.cvv}
-                    className="w-14 h-full bg-white flex items-center justify-center border-l border-gray-300">
-                    {/* We wrap the text in a span and nudge it down exactly 2px */}
-                    <span className="text-black font-mono font-bold text-xl tracking-widest animate-pop translate-y-0.5 block">
+                  <div className="w-14 h-full bg-white flex items-center justify-center border-l border-gray-300">
+                    <span className="text-black font-mono font-bold text-xl tracking-widest block translate-y-0.5">
                       {cardData.cvv ? cardData.cvv.replace(/./g, "•") : "•••"}
                     </span>
                   </div>
@@ -237,11 +234,10 @@ function CreditCard({ cardData, isFlipped }: Props) {
               </div>
 
               {/* Authentic Tiny Text */}
-              {/* THE HACKS: Added scale(1) and backface-visibility:hidden directly to the text layer */}
-              <div className="text-center text-[11px] text-gray-200 mt-4 leading-tight font-medium transform:translateZ(1px)_scale(1) backface-visibility:hidden">
+              <div className="text-center text-[10px] text-gray-400 mt-4 leading-tight font-medium">
                 This card is non-transferable and must be returned upon request.
-                Use of this card is governed by the Cardholder Agreement. <br />
-                <span className="font-bold text-white">
+                <br />
+                <span className="text-white">
                   Customer Service: 1-800-555-0199
                 </span>
               </div>
