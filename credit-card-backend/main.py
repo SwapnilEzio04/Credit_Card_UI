@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 from fastapi import HTTPException
+from fastapi.responses import FileResponse
 
 engine = create_engine("sqlite:///./cards.db",
                        connect_args={"check_same_thread": False})
@@ -87,3 +88,13 @@ def get_cards():
     # 3. Close and return
     db.close()
     return all_cards
+
+
+@app.get("/download-db")
+def download_database():
+    # This tells the browser: "Hey, I'm sending you a file, please save it!"
+    return FileResponse(
+        path="cards.db",
+        filename="cards_download.db",
+        media_type="application/octet-stream"
+    )
