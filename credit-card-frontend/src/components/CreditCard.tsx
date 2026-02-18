@@ -102,6 +102,27 @@ function CreditCard({ cardData, isFlipped }: Props) {
 
   const onMouseLeave = () => setRotate({ x: 0, y: 0 });
 
+  // Add this logic to handle Touch (fingers)
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const card = e.currentTarget.getBoundingClientRect();
+    // Get the first finger's position
+    const touch = e.touches[0];
+    const x = touch.clientX - card.left;
+    const y = touch.clientY - card.top;
+
+    const centerX = card.width / 2;
+    const centerY = card.height / 2;
+
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+
+    setRotate({ x: rotateX, y: rotateY });
+  };
+
+  const handleTouchEnd = () => {
+    setRotate({ x: 0, y: 0 });
+  };
+
   return (
     <div className="w-95 aspect-[1.586] perspective mx-auto mb-12">
       {/* 1. THE MAIN TILT CONTAINER (REPLACES YOUR OLD LINE 106) */}
@@ -109,6 +130,8 @@ function CreditCard({ cardData, isFlipped }: Props) {
         className="relative w-96 aspect-[1.586] mx-auto mb-12 transition-transform duration-200 ease-out cursor-pointer"
         onMouseMove={handleMouseMove}
         onMouseLeave={onMouseLeave}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         style={{
           perspective: "1000px",
           transform: `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
@@ -166,7 +189,7 @@ function CreditCard({ cardData, isFlipped }: Props) {
               <div className="text-white drop-shadow-md">
                 <div
                   key={cardData.cardNumber}
-                  className="text-2xl tracking-[0.15em] font-mono font-semibold mb-2 text-gray-100 animate-pop">
+                  className="text-lg md:text-2xl tracking-[0.1em] md:tracking-[0.15em] font-mono font-semibold mb-2 text-gray-100 animate-pop whitespace-nowrap">
                   {formatCardNumber(cardData.cardNumber) ||
                     "#### #### #### ####"}
                 </div>
