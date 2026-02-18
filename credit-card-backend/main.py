@@ -1,3 +1,4 @@
+import sqlite3
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -72,3 +73,18 @@ def save_card(card: CardData):
     db.close()
 
     return {"message": "Success! Card securely saved in database"}
+
+
+@app.get("/cards")
+async def get_cards():
+    conn = sqlite3.connect('cards.db')
+    # This line makes the data look like nice JSON (dictionaries) instead of just numbers
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    # Select everything from your table
+    cursor.execute("SELECT * FROM credit_cards")
+    cards = cursor.fetchall()
+
+    conn.close()
+    return cards
