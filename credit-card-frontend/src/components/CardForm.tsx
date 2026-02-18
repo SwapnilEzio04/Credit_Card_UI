@@ -105,11 +105,14 @@ function CardForm({ cardData, setCardData, setIsFlipped }: Props) {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/save-card", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cardData),
-      });
+      const response = await fetch(
+        "https://credit-card-api-ignq.onrender.com/save-card",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cardData),
+        },
+      );
 
       const data = await response.json();
 
