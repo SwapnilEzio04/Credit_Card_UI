@@ -75,16 +75,15 @@ def save_card(card: CardData):
     return {"message": "Success! Card securely saved in database"}
 
 
+# REPLACE THE OLD get_cards FUNCTION WITH THIS:
 @app.get("/cards")
-async def get_cards():
-    conn = sqlite3.connect('cards.db')
-    # This line makes the data look like nice JSON (dictionaries) instead of just numbers
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
+def get_cards():
+    # 1. Open a connection using the same way save_card does
+    db = SessionLocal()
 
-    # Select everything from your table
-    cursor.execute("SELECT * FROM credit_cards")
-    cards = cursor.fetchall()
+    # 2. Ask the ORM for all "DBCard" objects (It knows the real table name)
+    all_cards = db.query(DBCard).all()
 
-    conn.close()
-    return cards
+    # 3. Close and return
+    db.close()
+    return all_cards
