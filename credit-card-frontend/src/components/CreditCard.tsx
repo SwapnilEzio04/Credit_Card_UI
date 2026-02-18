@@ -127,7 +127,7 @@ function CreditCard({ cardData, isFlipped }: Props) {
     <div className="w-95 aspect-[1.586] perspective mx-auto mb-12">
       {/* 1. THE MAIN TILT CONTAINER (REPLACES YOUR OLD LINE 106) */}
       <div
-        className="relative w-96 aspect-[1.586] mx-auto mb-12 transition-transform duration-200 ease-out cursor-pointer"
+        className="relative w-96 aspect-[1.586] mx-auto mb-12 transition-transform duration-200 ease-out cursor-pointer touch-action-none"
         onMouseMove={handleMouseMove}
         onMouseLeave={onMouseLeave}
         onTouchMove={handleTouchMove}

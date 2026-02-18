@@ -17,7 +17,7 @@ function App() {
   return (
     <div
       className="min-h-screen bg-linear-to-br from-gray-950 via-gray-900 to-black 
-flex flex-col items-center justify-center gap-12">
+flex flex-col items-center justify-center gap-12 overflow-x-hidden">
       <div className="relative w-[380px] h-[240px]">
         <CreditCard cardData={cardData} isFlipped={isFlipped} />
       </div>
